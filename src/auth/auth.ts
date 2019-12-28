@@ -11,7 +11,7 @@ const userCreated = functions.auth.user().onCreate(async user => {
       phoneNumber: user.phoneNumber,
       email: user.email,
       emailVerified: user.emailVerified,
-      provider: user.providerData
+      providers: user.providerData
     });
 });
 
