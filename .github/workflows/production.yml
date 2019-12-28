@@ -1,0 +1,34 @@
+name: Production
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*.*
+
+jobs:
+  deploy:
+    name: Deploy functions to Firebase (Production environment)
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_ID: diple-app-prod
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@master
+      - name: Use Node.js 10
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+      - name: npm install
+        run: |
+          npm install
+        env:
+          CI: true
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
